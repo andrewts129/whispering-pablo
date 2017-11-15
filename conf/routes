@@ -1,0 +1,9 @@
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+POST     /api/postmessage                           controllers.api.ApiController.postMessage(request: String)
+
+      
