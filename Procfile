@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/TheWallsTalkBack
+web: target/universal/stage/bin/the-walls-talk-back
