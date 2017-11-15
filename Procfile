@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/the-walls-talk-back
+web: target/universal/stage/bin/TheWallsTalkBack -Dhttp.port=${PORT}
