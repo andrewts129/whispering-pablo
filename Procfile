@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/TheWallsTalkBack -Dhttp.port=${PORT}
+web: target/universal/stage/bin/whispering-pablo -Dhttp.port=${PORT}

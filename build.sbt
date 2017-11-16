@@ -1,8 +1,8 @@
-name := "TheWallsTalkBack"
+name := "whispering-pablo"
  
 version := "1.0" 
       
-lazy val `thewallstalkback` = (project in file(".")).enablePlugins(PlayScala)
+lazy val `whispering-pablo` = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       
