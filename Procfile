@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/whispering-pablo -Dhttp.port=${PORT} -Dplay.http.secret.key=${APPLICATION_SECRET}
+web: target/universal/stage/bin/whispering-pablo -Dhttp.port=${PORT}

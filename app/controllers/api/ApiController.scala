@@ -13,9 +13,18 @@ class ApiController @Inject()(cc: ControllerComponents) extends AbstractControll
     Ok("I'm alive!")
   }
 
+  private val messageFetcher = new services.MessageFetcher()
+
   def postMessage(request: String) = Action {
-    val requestId: String = UUID.randomUUID().toString
-    val response: JsValue = Json.obj("request" -> request, "request_id" -> requestId, "response" -> "TODO", "response_id" -> "TODO")
+    val requestId:String = UUID.randomUUID().toString
+
+    val responseMessage: String = messageFetcher.message
+    val responseId: String = messageFetcher.id
+
+    messageFetcher.message = request
+    messageFetcher.id = requestId
+
+    val response: JsValue = Json.obj("request" -> Json.obj("message" -> request, "id" -> requestId), "response" -> Json.obj("message" -> responseMessage, "id" -> responseId))
     Ok(response)
   }
 
