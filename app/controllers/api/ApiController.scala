@@ -8,11 +8,6 @@ import play.api.mvc._
 
 @Singleton
 class ApiController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
-
-  def index() = Action {
-    Ok("I'm alive!")
-  }
-
   private val messageFetcher = new services.MessageFetcher()
 
   def postMessage(request: String) = Action {
