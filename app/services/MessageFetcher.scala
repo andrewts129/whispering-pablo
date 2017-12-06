@@ -1,6 +1,6 @@
 package services
 
-import java.sql.{ResultSet, Statement}
+import java.sql.{PreparedStatement, ResultSet, Statement}
 import java.util.UUID
 import javax.inject.Inject
 
@@ -15,10 +15,10 @@ class MessageFetcher @Inject()(db: Database) {
     var message = "ERROR"
 
     try {
-      val statement: Statement = connection.createStatement()
+      val insertStatement: Statement = connection.createStatement()
 
       // Gets the last thing submitted to the db
-      val response: ResultSet = statement.executeQuery("SELECT id, text FROM messages WHERE id = (SELECT id FROM messages ORDER BY time DESC LIMIT 1);")
+      val response: ResultSet = insertStatement.executeQuery("SELECT id, text FROM messages WHERE id = (SELECT id FROM messages ORDER BY time DESC LIMIT 1);")
       if (response.next()) {
         id = response.getString("id")
         message = response.getString("text")
@@ -26,7 +26,10 @@ class MessageFetcher @Inject()(db: Database) {
 
       // Deletes the result retrieved above
       // TODO Combine statements
-      statement.executeUpdate("DELETE FROM messages WHERE id = '" + id + "'")
+      val deleteStatement: PreparedStatement = connection.prepareStatement("DELETE FROM messages WHERE id = ?")
+      deleteStatement.setString(1, id)
+
+      deleteStatement.executeUpdate()
 
     }
     finally {
@@ -40,8 +43,11 @@ class MessageFetcher @Inject()(db: Database) {
     val connection = db.getConnection()
 
     try {
-      val statement: Statement = connection.createStatement()
-      statement.executeUpdate("INSERT INTO messages(id, text, time) VALUES ('" + id + "', '" + text + "', now());")
+      val statement: PreparedStatement = connection.prepareStatement("INSERT INTO messages(id, text, time) VALUES (?, ?, now());")
+      statement.setString(1, id)
+      statement.setString(2, text)
+
+      statement.executeUpdate()
     }
     finally {
       connection.close()
