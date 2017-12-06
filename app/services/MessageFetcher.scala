@@ -7,10 +7,7 @@ import javax.inject.Inject
 import play.api.db.Database
 
 class MessageFetcher @Inject()(db: Database) {
-  var message: String = "Hello World!"
-  var id: String = UUID.randomUUID().toString
-
-  def getLastMessage(): (String, String) = {
+  def getLastMessage: (String, String) = {
     val connection = db.getConnection()
 
     // Default values in case something goes wrong
