@@ -4,7 +4,8 @@
 # ~~~~
 
 GET      /                                          controllers.Assets.at(path="/public", file="html/index.html")
-GET      /api/numsubmissions                        controllers.api.ApiController.getNumberSubmissions
-POST     /api/postmessage                           controllers.api.ApiController.postMessage(request: String)
+GET      /api/get/numsubmissions                    controllers.api.ApiController.getNumberSubmissions
+GET      /api/get/feed                              controllers.api.ApiController.getFeed
+POST     /api/post/submit                           controllers.api.ApiController.postMessage(message: String)
 
       
