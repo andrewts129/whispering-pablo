@@ -9,7 +9,7 @@ case class FeedMessage(id: String, message: String, creationTime: Timestamp, del
 object FeedMessage {
   implicit object FeedMessageFormat extends Format[FeedMessage] {
 
-    // Not used
+    // Not used, just put here so the code compiles
     override def reads(json: JsValue): JsResult[FeedMessage] = JsSuccess(FeedMessage("", "", null, null))
 
     override def writes(fm: FeedMessage): JsValue = {
