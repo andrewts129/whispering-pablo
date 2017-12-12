@@ -4,8 +4,9 @@ import java.sql.Timestamp
 import java.util.UUID
 import javax.inject._
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsArray, JsValue, Json}
 import play.api.mvc._
+import pojos.FeedMessage
 import services.{Counter, MessageFetcher}
 
 @Singleton
@@ -22,8 +23,14 @@ class ApiController @Inject()(cc: ControllerComponents, messageFetcher: MessageF
   }
 
   def getFeed = Action {
-    val feed: List[(String, String, Timestamp)] = messageFetcher.getFeed
-    val AsJson: JsValue = Json.toJson(feed.map {f => Map("id" -> f._1, "text" -> f._2, "creation_time" -> f._3)})
+    val feedData: List[(String, String, Timestamp, Timestamp)] = messageFetcher.getFeed
+
+    var feed: List[FeedMessage] = List()
+    for (feedItem: (String, String, Timestamp, Timestamp) <- feedData) {
+      feed = FeedMessage(feedItem._1, feedItem._2, feedItem._3, feedItem._4) :: feed
+    }
+
+    val AsJson: JsValue = Json.toJson(feed) //TODO this doesn't work
     Ok(AsJson)
   }
 
