@@ -49,7 +49,7 @@ class MessageFetcher @Inject()(db: Database) {
     val connection = db.getConnection()
 
     try {
-      val statement: PreparedStatement = connection.prepareStatement("INSERT INTO messages3 (id, text, creation_time, deletion_time) VALUES (?, ?, now(), now() + '1 hour');")
+      val statement: PreparedStatement = connection.prepareStatement("INSERT INTO messages3 (id, text, creation_time, deletion_time) VALUES (?, ?, now() at time zone 'utc', now() at time zone 'utc' + '1 hour');")
       statement.setString(1, id)
       statement.setString(2, text)
 
