@@ -1,11 +1,11 @@
 package controllers.api
 
-import java.sql.Timestamp
 import java.util.UUID
 import javax.inject._
 
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
+
 import pojos.FeedMessage
 import services.{Counter, MessageFetcher}
 
@@ -25,11 +25,9 @@ class ApiController @Inject()(cc: ControllerComponents, messageFetcher: MessageF
   def getFeed = Action {
     messageFetcher.purgeOldMessages()
 
-    val feedData: List[(String, String, Timestamp, Timestamp)] = messageFetcher.getFeed
-    val feed: List[FeedMessage] = for (x: (String, String, Timestamp, Timestamp) <- feedData) yield FeedMessage(x._1, x._2, x._3, x._4)
+    val feed: List[FeedMessage] = messageFetcher.getFeed
 
-    val AsJson: JsValue = Json.toJson(feed)
-    Ok(AsJson)
+    Ok(Json.toJson(feed))
   }
 
   def getNumberSubmissions = Action {

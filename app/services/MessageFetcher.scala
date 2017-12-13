@@ -4,10 +4,11 @@ import java.sql.{PreparedStatement, ResultSet, Statement, Timestamp}
 import javax.inject.Inject
 
 import play.api.db.Database
+import pojos.FeedMessage
 
 class MessageFetcher @Inject()(db: Database) {
-  def getFeed: List[(String, String, Timestamp, Timestamp)] = {
-    var feed: List[(String, String, Timestamp, Timestamp)] = List()
+  def getFeed: List[FeedMessage] = {
+    var feed: List[FeedMessage] = List()
 
     val connection = db.getConnection()
 
@@ -21,7 +22,7 @@ class MessageFetcher @Inject()(db: Database) {
         val creationTime: Timestamp = result.getTimestamp("creation_time")
         val deletionTime: Timestamp = result.getTimestamp("deletion_time")
 
-        feed = (id, text, creationTime, deletionTime) :: feed
+        feed = FeedMessage(id, text, creationTime, deletionTime) :: feed
       }
 
     }
@@ -48,7 +49,7 @@ class MessageFetcher @Inject()(db: Database) {
     val connection = db.getConnection()
 
     try {
-      val statement: PreparedStatement = connection.prepareStatement("INSERT INTO messages3 (id, text, creation_time, deletion_time) VALUES (?, ?, now(), now() + '60 seconds');")
+      val statement: PreparedStatement = connection.prepareStatement("INSERT INTO messages3 (id, text, creation_time, deletion_time) VALUES (?, ?, now(), now() + '1 hour');")
       statement.setString(1, id)
       statement.setString(2, text)
 
